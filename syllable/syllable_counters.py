@@ -49,9 +49,9 @@ class ModelSyllableCounter:
             j = json.load(f)
         self.chars = j['chars']
         self.maxlen = j['maxlen']
-        self.ctable = CharacterEncoder(self.chars)
+        self.char_enc = CharacterEncoder(self.chars)
         self.model = models.load_model(model_dir)
-        self.trimchars = str(set(string.punctuation) - set(self.chars))
+        self.trimchars = ''.join(set(string.punctuation) - set(self.chars))
 
     def count_syllables(self, word):
         word = self._clean(word)
@@ -67,7 +67,7 @@ class ModelSyllableCounter:
             return None
         if not all(c in self.chars for c in word):
             return None
-        x = np.array([self.ctable.encode(word, self.maxlen)])
+        x = np.array([self.char_enc.encode(word, self.maxlen)])
         return self.model(x, training=False)[0][0].numpy()
 
 
