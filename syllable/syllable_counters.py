@@ -1,14 +1,19 @@
 import json
 import string
+from pathlib import Path
 
 import numpy as np
 from keras import models
 
-from char_encoder import CharacterEncoder
+from .char_encoder import CharacterEncoder
 
-CMUDICT_FILE = './cmudict/cmudict.dict'
-MODEL_DIR = './model_data/model'
-CHARS_FILE = './model_data/chars.json'
+# TODO: Not great, improve this. Use importlib.resources.
+def get_path(path, cur_dir = Path(__file__).parent):
+    return cur_dir / path
+
+CMUDICT_FILE = get_path('cmudict/cmudict.dict')
+MODEL_DIR = get_path('model_data/model')
+CHARS_FILE = get_path('model_data/chars.json')
 
 
 class CmudictSyllableCounter:
@@ -44,9 +49,9 @@ class ModelSyllableCounter:
             j = json.load(f)
         self.chars = j['chars']
         self.maxlen = j['maxlen']
-        self.ctable = CharacterEncoder(self.chars)
+        self.char_enc = CharacterEncoder(self.chars)
         self.model = models.load_model(model_dir)
-        self.trimchars = str(set(string.punctuation) - set(self.chars))
+        self.trimchars = ''.join(set(string.punctuation) - set(self.chars))
 
     def count_syllables(self, word):
         word = self._clean(word)
@@ -62,7 +67,7 @@ class ModelSyllableCounter:
             return None
         if not all(c in self.chars for c in word):
             return None
-        x = np.array([self.ctable.encode(word, self.maxlen)])
+        x = np.array([self.char_enc.encode(word, self.maxlen)])
         return self.model(x, training=False)[0][0].numpy()
 
 
