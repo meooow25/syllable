@@ -1,14 +1,19 @@
 import json
 import string
+from pathlib import Path
 
 import numpy as np
 from keras import models
 
 from .char_encoder import CharacterEncoder
 
-CMUDICT_FILE = './cmudict/cmudict.dict'
-MODEL_DIR = './model_data/model'
-CHARS_FILE = './model_data/chars.json'
+# TODO: Not great, improve this. Use importlib.resources.
+def get_path(path, cur_dir = Path(__file__).parent):
+    return cur_dir / path
+
+CMUDICT_FILE = get_path('cmudict/cmudict.dict')
+MODEL_DIR = get_path('model_data/model')
+CHARS_FILE = get_path('model_data/chars.json')
 
 
 class CmudictSyllableCounter:
