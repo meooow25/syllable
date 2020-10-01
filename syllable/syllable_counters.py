@@ -4,7 +4,7 @@ import string
 import numpy as np
 from keras import models
 
-from char_encoder import CharacterEncoder
+from .char_encoder import CharacterEncoder
 
 CMUDICT_FILE = './cmudict/cmudict.dict'
 MODEL_DIR = './model_data/model'
