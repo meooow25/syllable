@@ -1,0 +1,2 @@
+include syllable/cmudict/cmudict.dict
+recursive-include syllable/model_data *
