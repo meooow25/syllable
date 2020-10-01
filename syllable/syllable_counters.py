@@ -35,7 +35,7 @@ class CmudictSyllableCounter:
         return d
 
     def count_syllables(self, word):
-        word = word.lstrip(string.punctuation)
+        word = word.lower().lstrip(string.punctuation)
         counts = self.d.get(word)
         if counts:
             return counts
@@ -54,13 +54,10 @@ class ModelSyllableCounter:
         self.trimchars = ''.join(set(string.punctuation) - set(self.chars))
 
     def count_syllables(self, word):
-        word = self._clean(word)
+        word = word.lower().strip(self.trimchars)
         if count := self._count(word):
             return (int(round(count)),)
         return ()
-
-    def _clean(self, word):
-        return word.strip().strip(self.trimchars)
 
     def _count(self, word):
         if len(word) > self.maxlen:
