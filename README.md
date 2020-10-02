@@ -19,5 +19,5 @@ The model is probably terrible for non-English words.
 >>> from syllable import CompositeSyllableCounter, SyllablePatternMatcher
 >>> comp = CompositeSyllableCounter([csc, msc])
 >>> matcher = SyllablePatternMatcher(comp, (5, 7, 5)) # or SyllablePatternMatcher.haiku(comp)
->>> matcher.match("family can be two or three syllables, but thisweirdword's just two")
-[['family', 'can', 'be'], ['two', 'or', 'three', 'syllables,', 'but'], ["thisweirdword's", 'just', 'two']]
+>>> matcher.match("family can be two or three syllables, but thisweirdword's just three")
+[['family', 'can', 'be'], ['two', 'or', 'three', 'syllables,', 'but'], ["thisweirdword's", 'just', 'three']]
