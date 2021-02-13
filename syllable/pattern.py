@@ -44,9 +44,7 @@ class SyllablePatternMatcher:
         If multiple matches are possible, any one of them is returned.
         If a match is not found, None is returned.
         """
-        # Some short circuit checks
-        if len(text) < self.pattern_sum:
-            return None
+        # Short circuit check
         words = text.split()
         if len(words) > self.pattern_sum:
             return None
